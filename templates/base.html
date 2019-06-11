@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <title>头部标题</title>
+</head>
+<body>
+<h1>标题 1</h1>
+<p>第一段落</p>
+{% block mainbody %}
+    <p>在 block 中的第二段落</p>
+{% endblock %}
+
+<div>
+<p>msglist 内容如下：</p>
+    {% for msg in msglist %}
+        <p>{{ msg }}</p>
+    {% endfor %}
+
+</div>
+</body>
+</html>
