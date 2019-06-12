@@ -13,16 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from dtTest.views import people
-from mongoengineTest.views import SelectView, index
+from mongoengineTest.views import index
 
 urlpatterns = [
-    url(r'^$', index),
+    path('', index),
+    # 使用 mongoengineTest urls 匹配
+    path('author/', include('mongoengineTest.urls')),
     path('admin/', admin.site.urls),
-    path('people', people),
-    # path('authors', SelectView.get()),
+    path('people/', people),
 ]

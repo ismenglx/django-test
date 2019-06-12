@@ -1,8 +1,9 @@
 # Create your views here.
 from django.shortcuts import render
 from mongoengine import QuerySet
-from pymongo.response import Response
+from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_mongoengine import viewsets
 
 from mongoengineTest.models import Author
 from mongoengineTest.serializer import AuthorSerializer
@@ -17,20 +18,25 @@ class InsertView(APIView):
         return Response(dict(msg="OK", code=10000))
 
 
-class SelectView(APIView):
-    def get(self, request):
-        """
-        查询数据
-        :param request:
-        :return:
-        """
-        authors = Author.objects.all()
-        ser = AuthorSerializer(instance=authors, many=True)
-        return Response(dict(msg="OK", code="10000", data=ser))
+class AuthorViewSet(viewsets.ModelViewSet):
+    serializer_class = AuthorSerializer
+    queryset: QuerySet = Author.objects.all()
+
+    # permission_classes = permissions.IsAuthenticatedOrReadOnly
+
+    def list(self, request, *args, **kwargs):
+        queryset = Author.objects.all()
+        ser = AuthorSerializer(instance=queryset, many=True)
+        # print(ser.data)
+        return Response(ser.data)
+
+    def retrieve(self, request, *args, **kwargs):
+        ser = AuthorSerializer(self.queryset.first())
+        return Response(ser.data)
 
 
 def index(request):
-    authors: QuerySet = Author.objects.all()
+    authors = Author.objects.all()
     msglist = {'a', 'b', 'c'}
 
     context = {'msglist': msglist}
