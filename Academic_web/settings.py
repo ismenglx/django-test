@@ -91,6 +91,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
     },
+    # djongo
     'mongodb': {
         'ENGINE': 'djongo',
         'NAME': 'test',
@@ -99,17 +100,17 @@ DATABASES = {
         'HOST': '192.168.1.123',
         # 'AUTH': 'admin',
     },
+    # mongo-engine
     'mongo': {
         'ENGINE': None,
     }
 }
 
-# TODO 使用 mongoEngine
+# mongoEngine
 import mongoengine
-
 conn = mongoengine.connect(db='test', host='192.168.1.123', port=27017)
 
-# TODO 数据库路由
+# TODO 数据库路由 djongo
 DATABASE_ROUTERS = [
     'mongodbTest.db_router.MongoDBRouter',
 ]
@@ -137,7 +138,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # 语言和时区
 LANGUAGE_CODE = 'zh-hans'
-
 TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
@@ -151,6 +151,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# rest_framework 配置
 REST_FRAMEWORK = {
     # rest 权限
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
